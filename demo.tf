@@ -48,7 +48,7 @@ resource "aws_route" "igw_route" {
 }
 
 resource "aws_security_group" "my_sg" {
-    name = "${var.project}-sg"
+    Name = "${var.project}-sg"
     description = "allow http and ssh"
     vpc_id = aws_vpc.my_vpc.id
     ingress {
@@ -75,7 +75,7 @@ resource "aws_security_group" "my_sg" {
 resource "aws_instance" "instance_1" {
     ami = var.image_id
     instance_type = var.instance_type
-    key_name = var.key_pair
+    key_Name = var.key_pair
     vpc_security_group_ids = [aws_security_group.my_sg.id]
     tags = {
         Name = "${var.project}-private-instance"
@@ -87,7 +87,7 @@ resource "aws_instance" "instance_1" {
 resource "aws_instance" "instance_2" {
     ami = var.image_id
     instance_type = var.instance_type
-    key_name = var.key_pair
+    key_Name = var.key_pair
     vpc_security_group_ids = [aws_security_group.my_sg.id]
     tags = {
         Name = "${var.project}-public-instance"
