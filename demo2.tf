@@ -2,7 +2,7 @@ provider "aws" {
     region = "eu-north-1"
 }
 
-resource "aws_vpc" "my_vpc"{
+resource "aws_vpc" "my_vpc" {
     cidr_block = var.cidr_id
     tags = {
         name = "${var.project}-vpc"
@@ -10,7 +10,7 @@ resource "aws_vpc" "my_vpc"{
     }
 }
 
-resource "aws_subnet" "private_subnet"{
+resource "aws_subnet" "private_subnet" {
     vpc_id = aws_vpc.my_vpc.id
     cidr_block = var.private_subnet_cidr
 
@@ -20,7 +20,7 @@ resource "aws_subnet" "private_subnet"{
     }
 }
 
-resource "aws_subnet" "public_subnet"{
+resource "aws_subnet" "public_subnet" {
     vpc_id = aws_vpc.my_vpc.id
     cidr_block = var.public_subnet_cidr
     map_public_ip_on_launch = true
@@ -29,7 +29,7 @@ resource "aws_subnet" "public_subnet"{
     }
 }
 
-resource "internet_gateway" "my_igw"{
+resource "internet_gateway" "my_igw" {
     vpc_id = aws_vpc.my_vpc.id
 
     tags = {
@@ -38,7 +38,7 @@ resource "internet_gateway" "my_igw"{
   }
 }
 
-resource "aws_route" "igw_route"{
+resource "aws_route" "igw_route" {
     route_table_id = aws_vpc.my_vpc.default_route_table_id
     destination_cidr_block = "0.0.0.0/0"
     gateway_id = internet_gateway.my_igw.id
