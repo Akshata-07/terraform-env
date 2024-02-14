@@ -14,3 +14,7 @@ variable "bucket-name" {
 variable "bucket-env" {
     default = "storage"
 }
+
+variable "policy-name" {
+    default = "s3_bucket_access_policy"
+}
