@@ -1,3 +1,4 @@
+/*
 provider "aws" {
     region = "eu-north-1"
 }
@@ -93,11 +94,11 @@ resource "aws_instance" "instance-2" {
     subnet_id = aws_subnet.public_subnet.id
 }
 
+*/
 
 
 
 
-/*
 
 provider "aws" {
     region = "eu-north-1"
@@ -197,4 +198,3 @@ resource "aws_instance" "instance-2" {
     subnet_id = aws_subnet.public_subnet.id
 }
 
-*/
