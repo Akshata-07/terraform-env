@@ -94,3 +94,4 @@ resource "aws_instance" "instance-2" {
     }
     subnet_id = aws_subnet.public_subnet.id
 }
+#ndjc
