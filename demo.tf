@@ -15,7 +15,7 @@ resource "aws_subnet" "private_subnet" {
     cidr_block = var.private_subnet_cidr
 
     tags = {
-      Name = "${var.project}-priavte-subnet"
+      Name = "${var.project}-private-subnet"
       env = var.env
     }
 }
@@ -26,6 +26,7 @@ resource "aws_subnet" "public_subnet" {
     map_public_ip_on_launch = true
     tags = {
         Name = "${var.project}-public-subnet"
+        env = var.env
     }
 }
 
@@ -33,9 +34,9 @@ resource "internet_gateway" "my_igw" {
     vpc_id = aws_vpc.my_vpc.id
 
     tags = {
-    env = var.env
-    Name = "${var.project}-igw"
-  }
+        Name = "${var.project}-igw"
+        env = var.env
+    }
 }
 
 resource "aws_route" "igw_route" {
