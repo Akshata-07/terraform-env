@@ -18,10 +18,6 @@ resource "aws_iam_user" "user-name" {
 # 2. created s3 bucket in AWS using terraform 
 
 
-provider "aws" {
-    region = "eu-north-1"
-}
-
 resource "aws_s3_bucket" "my-bucket" {
     bucket = var.bucket-name
     tags = {
