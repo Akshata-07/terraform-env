@@ -67,10 +67,9 @@ resource "aws_security_group" "my_sg" {
         from_port = 0
         to_port = 0
     }
-    depends_on = [aws_internet_gateway.my_igw]
 }
 
-resource "aws_instance" "instance_1" {
+resource "aws_instance" "instance-1" {
     ami = var.image_id
     instance_type = var.instance_type
     key_name = var.key_pair
@@ -82,7 +81,7 @@ resource "aws_instance" "instance_1" {
     subnet_id = aws_subnet.private_subnet.id
 }
 
-resource "aws_instance" "instance_2" {
+resource "aws_instance" "instance-2" {
     ami = var.image_id
     instance_type = var.instance_type
     key_name = var.key_pair
@@ -132,7 +131,7 @@ resource "aws_subnet" "public_subnet" {
     }
 }
 
-resource "internet_gateway" "my_igw" {
+resource "aws_internet_gateway" "my_igw" {
     vpc_id = aws_vpc.my_vpc.id
 
     tags = {
