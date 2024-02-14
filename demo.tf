@@ -1,3 +1,5 @@
+/*
+
 provider "aws" {
     region = "us-east-1"
 }
@@ -93,3 +95,5 @@ resource "aws_instance" "instance_2" {
     }
     subnet_id = aws_subnet.public_subnet.id
 }
+
+*/
