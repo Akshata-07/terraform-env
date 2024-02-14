@@ -10,7 +10,7 @@ variable "env"{
     default = "dev"
 }
 
-variable "priavte_subnet_cidr"{
+variable "private_subnet_cidr"{
     default = "192.168.0.0/20"
 }
 
