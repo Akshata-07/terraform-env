@@ -3,11 +3,11 @@ output "demo-project" {
 }
 
 output "public-instance-public-ip" {
-    value = aws_instance.instance_2.public_ip
+    value = aws_instance.instance-2.public_ip
 }
 
 output "public-instance-state" {
-    value = aws_instance.instance_2.instance_state 
+    value = aws_instance.instance-2.instance_state 
 }
 
 output "private-instance-state" {
