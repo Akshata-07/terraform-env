@@ -1,5 +1,3 @@
-/* 
-
 provider "aws" {
     region = "eu-north-1"
 }
@@ -25,7 +23,7 @@ resource "aws_subnet" "private_subnet"{
 resource "aws_subnet" "public_subnet"{
     vpc_id = aws_vpc.my_vpc.id
     cidr_block = var.public_subnet_cidr
-
+    #map_public_ip_on_launch = true
     tags = {
         name = "${var.project}-public-subnet"
     }
@@ -96,5 +94,3 @@ resource "aws_instance" "instance-2" {
     }
     subnet_id = aws_subnet.public_subnet.id
 }
-
-*/
