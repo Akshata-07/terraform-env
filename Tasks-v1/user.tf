@@ -13,6 +13,7 @@ resource "aws_iam_user" "user-name" {
     }
 }
 
+/*
 
 
 # 2. created s3 bucket in AWS using terraform 
@@ -57,3 +58,6 @@ resource "aws_iam_user_policy_attachment" "attach-policy" {
     user       = aws_iam_user.user-name.name
     policy_arn = aws_iam_policy.bucket_access_policy.arn
 }
+
+
+*/
