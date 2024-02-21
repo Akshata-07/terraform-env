@@ -126,10 +126,8 @@ resource "aws_eks_cluster" "my_cluster"{
     role_arn = aws_iam_role.eks_role.arn
     vpc_config {
     subnet_ids = [
-      aws_subnet.private-eu-north-1a.id,
-      aws_subnet.private-eu-north-1b.id,
-      aws_subnet.public-eu-north-1a.id,
-      aws_subnet.public-eu-north-1b.id
+      aws_subnet.private_subnet.id,
+      aws_subnet.public_subnet.id
     ]
   }
 
