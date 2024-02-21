@@ -1,7 +1,7 @@
 provider "aws"{
     region = "eu-north-1"
 }
-
+/*
 resource "aws_iam_role" "eks_role" {
   name = "eks-cluster-role"
    assume_role_policy = <<POLICY
@@ -27,6 +27,34 @@ resource "aws_iam_role_policy_attachment" "demo-AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
 }
 
+*/
+
+
+data "aws_iam_policy_document" "assume_role" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["eks.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+resource "aws_iam_role" "eks_role" {
+  name               = "eks-cluster-example"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
+
+resource "aws_iam_role_policy_attachment" "example-AmazonEKSClusterPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.eks_role.name
+}
+
+
+
 
 resource "aws_eks_cluster" "my_cluster"{
     name = "terraform-cluster"
@@ -40,7 +68,7 @@ resource "aws_eks_cluster" "my_cluster"{
     ]
   }
 
-  depends_on = [aws_iam_role_policy_attachment.demo-AmazonEKSClusterPolicy]
+  depends_on = [aws_iam_role_policy_attachment.example-AmazonEKSClusterPolicy]
 }
 
 
