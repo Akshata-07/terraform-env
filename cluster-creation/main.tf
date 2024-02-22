@@ -54,6 +54,7 @@ resource "aws_subnet" "public_subnet" {
     }
 }
 
+#internet gateway
 resource "aws_internet_gateway" "my_igw" {
   vpc_id = aws_vpc.my_vpc.id
 
@@ -63,12 +64,14 @@ resource "aws_internet_gateway" "my_igw" {
   }
 }
 
+#route table
 resource "aws_route" "igw_route" {
   route_table_id            = aws_vpc.my_vpc.default_route_table_id
   destination_cidr_block    = "0.0.0.0/0"
   gateway_id = aws_internet_gateway.my_igw.id
 }
 
+#security group
 resource "aws_security_group" "my_sg" {
     name = "${var.project}-sg"
     description = "allow http and ssh"
@@ -170,6 +173,22 @@ resource "aws_nat_gateway" "my_nat_gateway" {
   subnet_id     = aws_subnet.public_subnet.id
 }
 
+resource "aws_eip" "nat_gateway_eip" {
+  domain = "vpc"
+}
+
+resource "aws_nat_gateway" "my_nat_gateway" {
+  allocation_id = aws_eip.nat_gateway_eip.id
+  subnet_id     = aws_subnet.public_subnet.id
+
+  depends_on = [aws_eip.nat_gateway_eip]
+}
+
+
+
+
+
+/*
 # Elastic IP for NAT Gateway
 resource "aws_instance" "my_instance" {
   ami           = "ami-0014ce3e52359afbd"  
@@ -181,7 +200,7 @@ resource "aws_eip" "my_eip" {
   instance = aws_instance.my_instance.id
 }
 
-
+*/
 
 
 
