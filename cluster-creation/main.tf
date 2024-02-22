@@ -183,9 +183,9 @@ data "aws_route_table" "private_subnet" {
   subnet_id = aws_subnet.private_subnet.id
 }
 
-data "aws_route_table" "main" {
-  vpc_id = aws_vpc.my_vpc.id
-}
+# data "aws_route_table" "main" {
+#   vpc_id = aws_vpc.my_vpc.id
+# }
 
 # Route Table for Private Subnet
 resource "aws_route_table_association" "private_subnet_association" {
