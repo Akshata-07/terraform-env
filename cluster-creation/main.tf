@@ -106,6 +106,46 @@ resource "aws_eks_cluster" "my_cluster"{
   depends_on = [aws_iam_role_policy_attachment.example-AmazonEKSClusterPolicy]
 }
 
+resource "aws_iam_role" "noderole" {
+  name = "node-role"
+    assume_role_policy = jsonencode({
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+    }]
+    Version = "2012-10-17"
+  })
+}
+
+#creating nodes
+resource "aws_eks_node_group" "my-node" {
+  cluster_name = aws_eks_cluster.my_cluster.name
+  node_group_name = "new-node"
+  node_role_arn = aws_iam_role.noderole.arn
+  subnet_ids = [
+    aws_subnet.private_subnet.id,
+    aws_subnet.public_subnet.id
+  ]
+  capacity_type = "ON_DEMAND"
+  instance_types = ["t3.small"]
+  scaling_config {
+    desired_size = 2
+    min_size = 1
+    max_size = 4
+  }
+  update_config {
+    max_unavailable = 1
+  }
+  depends_on = [ 
+    aws_iam_role_policy_attachment.node-AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.node-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.node-AmazonEKS_CNI_Policy
+  ]
+}
+
 
 
 
