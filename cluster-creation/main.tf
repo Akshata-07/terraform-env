@@ -172,11 +172,6 @@ data "aws_route_table" "main" {
   vpc_id = aws_vpc.my_vpc.id
 }
 
-resource "aws_route_table_association" "private_subnet_association" {
-  subnet_id      = aws_subnet.private_subnet.id
-  route_table_id = data.aws_route_table.main.id
-}
-
 resource "aws_eip" "nat_gateway_eip" {
   domain = "vpc"
 }
