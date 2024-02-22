@@ -168,10 +168,6 @@ resource "aws_eks_node_group" "my-node" {
   ]
 }
 
-data "aws_route_table" "main" {
-  vpc_id = aws_vpc.my_vpc.id
-}
-
 resource "aws_eip" "nat_gateway_eip" {
   domain = "vpc"
 }
