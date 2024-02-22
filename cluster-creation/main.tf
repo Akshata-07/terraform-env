@@ -37,7 +37,6 @@ resource "aws_vpc" "my_vpc" {
 resource "aws_subnet" "private_subnet" {
     vpc_id     = aws_vpc.my_vpc.id
     cidr_block = var.private_subnet_cidr
-
     tags = {
         env = var.env
         Name = "${var.project}-private-subnet"
@@ -145,7 +144,7 @@ resource "aws_eks_node_group" "my-node" {
   node_role_arn = aws_iam_role.noderole.arn
   subnet_ids = [
     aws_subnet.private_subnet.id,
-    aws_subnet.public_subnet.id
+    # aws_subnet.public_subnet.id
   ]
   capacity_type = "ON_DEMAND"
   instance_types = ["t3.small"]
