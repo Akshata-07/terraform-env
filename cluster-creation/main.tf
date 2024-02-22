@@ -148,8 +148,7 @@ resource "aws_eks_node_group" "my-node" {
   node_group_name = "new-node"
   node_role_arn = aws_iam_role.noderole.arn
   subnet_ids = [
-    aws_subnet.private_subnet.id,
-    aws_subnet.public_subnet.id
+    aws_subnet.private_subnet.id
   ]
   capacity_type = "ON_DEMAND"
   instance_types = ["t3.micro"]
