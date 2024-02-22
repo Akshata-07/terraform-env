@@ -149,7 +149,7 @@ resource "aws_eks_node_group" "my-node" {
     aws_subnet.public_subnet.id
   ]
   capacity_type = "ON_DEMAND"
-  instance_types = ["t3.small"]
+  instance_types = ["t3.micro"]
   scaling_config {
     desired_size = 2
     min_size = 1
