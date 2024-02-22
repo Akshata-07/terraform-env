@@ -179,13 +179,20 @@ resource "aws_nat_gateway" "my_nat_gateway" {
 
   depends_on = [aws_eip.nat_gateway_eip]
 }
+
+# Route Table for Private Subnet
+resource "aws_route_table_association" "private_subnet_association" {
+  subnet_id      = aws_subnet.private_subnet.id
+  route_table_id = aws_subnet.private_subnet.route_table_id
+}
+
+# Creating NAT Gateway route for private subnet
 resource "aws_route" "nat_gateway_route" {
   route_table_id         = aws_subnet.private_subnet.route_table_id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.my_nat_gateway.id
   depends_on             = [aws_nat_gateway.my_nat_gateway]
 }
-
 
 
 
