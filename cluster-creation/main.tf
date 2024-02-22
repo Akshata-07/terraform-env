@@ -201,13 +201,6 @@ resource "aws_route" "nat_gateway_route" {
   depends_on       = [aws_nat_gateway.my_nat_gateway]
 }
 
-output "private_subnet_id" {
-  value = aws_subnet.private_subnet.id
-}
-
-output "private_subnet_route_table_association" {
-  value = data.private_subnet.route_table_association_ids
-}
 
 
 /*
