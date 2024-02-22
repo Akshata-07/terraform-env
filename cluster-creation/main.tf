@@ -146,7 +146,7 @@ resource "aws_eks_node_group" "my-node" {
   node_role_arn = aws_iam_role.noderole.arn
   subnet_ids = [
     aws_subnet.private_subnet.id,
-    # aws_subnet.public_subnet.id
+    aws_subnet.public_subnet.id
   ]
   capacity_type = "ON_DEMAND"
   instance_types = ["t3.small"]
@@ -164,6 +164,24 @@ resource "aws_eks_node_group" "my-node" {
     aws_iam_role_policy_attachment.my-node-AmazonEKS_CNI_Policy
   ]
 }
+
+resource "aws_nat_gateway" "my_nat_gateway" {
+  allocation_id = aws_eip.my_eip.id
+  subnet_id     = aws_subnet.public_subnet.id
+}
+
+# Elastic IP for NAT Gateway
+resource "aws_instance" "my_instance" {
+  ami           = "ami-0014ce3e52359afbd"  # Replace with your desired NAT AMI
+  instance_type = "t3.micro"                # Replace with your desired NAT instance type
+  subnet_id     = aws_subnet.public_subnet.id
+}
+
+resource "aws_eip" "my_eip" {
+  instance = aws_instance.my_instance.id
+}
+
+
 
 
 
