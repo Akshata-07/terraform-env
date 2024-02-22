@@ -172,8 +172,8 @@ resource "aws_nat_gateway" "my_nat_gateway" {
 
 # Elastic IP for NAT Gateway
 resource "aws_instance" "my_instance" {
-  ami           = "ami-0014ce3e52359afbd"  # Replace with your desired NAT AMI
-  instance_type = "t3.micro"                # Replace with your desired NAT instance type
+  ami           = "ami-0014ce3e52359afbd"  
+  instance_type = "t3.micro"                
   subnet_id     = aws_subnet.public_subnet.id
 }
 
