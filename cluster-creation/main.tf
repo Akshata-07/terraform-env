@@ -204,7 +204,6 @@ resource "aws_route" "nat_gateway_route" {
 
 
 
-
 /*
 
 resource "aws_eip" "nat_gateway_eip" {
