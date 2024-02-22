@@ -2,6 +2,7 @@ provider "aws" {
     region = "eu-north-1"
 }
 
+/*
 data "aws_iam_policy_document" "assume_role" {
   statement {
     effect = "Allow"
@@ -104,7 +105,7 @@ resource "aws_eks_cluster" "my_cluster"{
 
   depends_on = [aws_iam_role_policy_attachment.example-AmazonEKSClusterPolicy]
 }
-
+*/
 #node role
 resource "aws_iam_role" "noderole" {
   name = "node-role"
@@ -135,6 +136,7 @@ resource "aws_iam_role_policy_attachment" "my-node-AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.noderole.name
 }
+
 
 
 #creating nodes
