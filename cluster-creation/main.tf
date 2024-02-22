@@ -179,24 +179,12 @@ resource "aws_nat_gateway" "my_nat_gateway" {
 
   depends_on = [aws_eip.nat_gateway_eip]
 }
-
-
-
-
-
-/*
-# Elastic IP for NAT Gateway
-resource "aws_instance" "my_instance" {
-  ami           = "ami-0014ce3e52359afbd"  
-  instance_type = "t3.micro"                
-  subnet_id     = aws_subnet.public_subnet.id
+resource "aws_route" "nat_gateway_route" {
+  route_table_id         = aws_subnet.private_subnet.route_table_id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.my_nat_gateway.id
+  depends_on             = [aws_nat_gateway.my_nat_gateway]
 }
-
-resource "aws_eip" "my_eip" {
-  instance = aws_instance.my_instance.id
-}
-
-*/
 
 
 
