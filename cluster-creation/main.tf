@@ -27,6 +27,11 @@ resource "aws_iam_role_policy_attachment" "example-AmazonEKSClusterPolicy" {
   role       = aws_iam_role.eks_role.name
 }
 
+resource "aws_iam_role_policy_attachment" "eks_role_AmazonEKSWorkerNodePolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  role       = aws_iam_role.eks_role.name
+}
+
 #vpc creation
 resource "aws_vpc" "my_vpc" {
     cidr_block = var.cidr_id
@@ -130,6 +135,8 @@ resource "aws_iam_role" "noderole" {
     Version = "2012-10-17"
   })
 }
+
+
 
 #attaching role policy and nodes
 resource "aws_iam_role_policy_attachment" "my-node-AmazonEC2ContainerRegistryReadOnly" {
