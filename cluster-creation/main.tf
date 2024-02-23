@@ -16,6 +16,7 @@ data "aws_iam_policy_document" "assume_role" {
   }
 }
 
+#cluster role
 resource "aws_iam_role" "eks_role" {
   name               = "eks-cluster-example"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
@@ -26,7 +27,7 @@ resource "aws_iam_role_policy_attachment" "example-AmazonEKSClusterPolicy" {
   role       = aws_iam_role.eks_role.name
 }
 
-
+#vpc creation
 resource "aws_vpc" "my_vpc" {
     cidr_block = var.cidr_id
     tags = {
@@ -35,6 +36,7 @@ resource "aws_vpc" "my_vpc" {
     }
 }
 
+#private subnet
 resource "aws_subnet" "private_subnet" {
     vpc_id     = aws_vpc.my_vpc.id
     availability_zone = "eu-north-1a"
@@ -46,6 +48,7 @@ resource "aws_subnet" "private_subnet" {
      map_public_ip_on_launch = false
 }
 
+#public subnet
 resource "aws_subnet" "public_subnet" {
     vpc_id     = aws_vpc.my_vpc.id
     availability_zone = "eu-north-1b"
@@ -99,6 +102,7 @@ resource "aws_security_group" "my_sg" {
     }
 }
 
+#cluster creation
 resource "aws_eks_cluster" "my_cluster"{
     name = "terraform-cluster"
     role_arn = aws_iam_role.eks_role.arn
@@ -174,6 +178,7 @@ resource "aws_eip" "nat_gateway_eip" {
   domain = "vpc"
 }
 
+#NAT gateway
 resource "aws_nat_gateway" "my_nat_gateway" {
   allocation_id = aws_eip.nat_gateway_eip.id
   subnet_id     = aws_subnet.public_subnet.id
@@ -189,7 +194,7 @@ resource "aws_route_table_association" "private_subnet_association" {
   
 }
 
-
+#private subnet route table
 resource "aws_route_table" "my_route_table" {
   vpc_id = aws_vpc.my_vpc.id
   tags = {
@@ -197,6 +202,7 @@ resource "aws_route_table" "my_route_table" {
   }
 }
 
+#nat agteway route table
 resource "aws_route" "nat_gateway_route" {
   route_table_id = aws_route_table.my_route_table.id
   destination_cidr_block = "0.0.0.0/0"
