@@ -192,20 +192,41 @@ resource "aws_nat_gateway" "my_nat_gateway" {
 # Route Table for Private Subnet association
 resource "aws_route_table_association" "private_subnet_association" {
   subnet_id      = aws_subnet.private_subnet.id
-  route_table_id = data.aws_route_table.private_subnet.id
+  # route_table_id = data.aws_route_table.private_subnet.id
+  route_table_id = aws_route_table.my_route_table.id
+  
 }
 
 
 # Creating NAT Gateway route for private subnet
+/*
 resource "aws_route" "nat_gateway_route" {
-  # route_table_id   = data.aws_route_table.private_subnet.id
-  route_table_id   = aws_vpc.my_vpc.default_route_table_id
+  route_table_id   = data.aws_route_table.private_subnet.id
+  # route_table_id   = aws_vpc.my_vpc.default_route_table_id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id   = aws_nat_gateway.my_nat_gateway.id
   depends_on       = [aws_nat_gateway.my_nat_gateway]
 }
 
+*/
 
+
+resource "aws_route_table" "my_route_table" {
+  vpc_id = aws_vpc.my_vpc.id
+  tags = {
+    Name = "private-route-table"
+  }
+}
+
+resource "aws_route" "nat_gateway_route" {
+  # route_table_id   = data.aws_route_table.private_subnet.id
+  # route_table_id   = aws_vpc.my_vpc.default_route_table_id
+
+  route_table_id = aws_route_table.my_route_table.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id   = aws_nat_gateway.my_nat_gateway.id
+  depends_on       = [aws_nat_gateway.my_nat_gateway]
+}
 
 /*
 
