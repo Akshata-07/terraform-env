@@ -27,10 +27,10 @@ resource "aws_iam_role_policy_attachment" "example-AmazonEKSClusterPolicy" {
   role       = aws_iam_role.eks_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "eks_role_AmazonEKSWorkerNodePolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = aws_iam_role.eks_role.name
-}
+# resource "aws_iam_role_policy_attachment" "eks_role_AmazonEKSWorkerNodePolicy" {
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+#   role       = aws_iam_role.eks_role.name
+# }
 
 #vpc creation
 resource "aws_vpc" "my_vpc" {
