@@ -179,15 +179,17 @@ resource "aws_nat_gateway" "my_nat_gateway" {
   depends_on = [aws_eip.nat_gateway_eip]
 }
 
+# route table 
 data "aws_route_table" "private_subnet" {
   subnet_id = aws_subnet.private_subnet.id
 }
+
 
 # data "aws_route_table" "main" {
 #   vpc_id = aws_vpc.my_vpc.id
 # }
 
-# Route Table for Private Subnet
+# Route Table for Private Subnet association
 resource "aws_route_table_association" "private_subnet_association" {
   subnet_id      = aws_subnet.private_subnet.id
   route_table_id = data.aws_route_table.private_subnet.id
