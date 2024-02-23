@@ -37,6 +37,7 @@ resource "aws_vpc" "my_vpc" {
 
 resource "aws_subnet" "private_subnet" {
     vpc_id     = aws_vpc.my_vpc.id
+    availability_zone = "eu-north-1a"
     cidr_block = var.private_subnet_cidr
     tags = {
         env = var.env
@@ -47,6 +48,7 @@ resource "aws_subnet" "private_subnet" {
 
 resource "aws_subnet" "public_subnet" {
     vpc_id     = aws_vpc.my_vpc.id
+    availability_zone = "eu-north-1b"
     cidr_block = var.public_subnet_cidr
     map_public_ip_on_launch = true
     tags = {
@@ -179,36 +181,13 @@ resource "aws_nat_gateway" "my_nat_gateway" {
   depends_on = [aws_eip.nat_gateway_eip]
 }
 
-# route table 
-# data "aws_route_table" "private_subnet" {
-#   subnet_id = aws_subnet.private_subnet.id
-# }
-
-
-# data "aws_route_table" "main" {
-#   vpc_id = aws_vpc.my_vpc.id
-# }
 
 # Route Table for Private Subnet association
 resource "aws_route_table_association" "private_subnet_association" {
   subnet_id      = aws_subnet.private_subnet.id
-  # route_table_id = data.aws_route_table.private_subnet.id
   route_table_id = aws_route_table.my_route_table.id
   
 }
-
-
-# Creating NAT Gateway route for private subnet
-/*
-resource "aws_route" "nat_gateway_route" {
-  route_table_id   = data.aws_route_table.private_subnet.id
-  # route_table_id   = aws_vpc.my_vpc.default_route_table_id
-  destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id   = aws_nat_gateway.my_nat_gateway.id
-  depends_on       = [aws_nat_gateway.my_nat_gateway]
-}
-
-*/
 
 
 resource "aws_route_table" "my_route_table" {
@@ -219,46 +198,11 @@ resource "aws_route_table" "my_route_table" {
 }
 
 resource "aws_route" "nat_gateway_route" {
-  # route_table_id   = data.aws_route_table.private_subnet.id
-  # route_table_id   = aws_vpc.my_vpc.default_route_table_id
-
   route_table_id = aws_route_table.my_route_table.id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id   = aws_nat_gateway.my_nat_gateway.id
   depends_on       = [aws_nat_gateway.my_nat_gateway]
 }
 
-/*
 
-resource "aws_eip" "nat_gateway_eip" {
-  domain = "vpc"
-}
-
-resource "aws_nat_gateway" "my_nat_gateway" {
-  allocation_id = aws_eip.nat_gateway_eip.id
-  subnet_id     = aws_subnet.public_subnet.id
-
-  depends_on = [aws_eip.nat_gateway_eip]
-}
-
-data "aws_route_table" "private_subnet" {
-  subnet_id = aws_subnet.private_subnet.id
-}
-
-# Route Table for Private Subnet
-resource "aws_route_table_association" "private_subnet_association" {
-  subnet_id      = aws_subnet.private_subnet.id
-  route_table_id = 
-}
-
-# Creating NAT Gateway route for private subnet
-resource "aws_route" "nat_gateway_route" {
-  route_table_id   = data.aws_route_table.private_subnet.id
-  destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id   = aws_nat_gateway.my_nat_gateway.id
-  depends_on       = [aws_nat_gateway.my_nat_gateway]
-}
-
-
-*/
 
