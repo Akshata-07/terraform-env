@@ -12,7 +12,7 @@ resource "aws_instance" "jenkins_instance" {
 connection {
     type        = "ssh"
     user        = "ec2-user"  # Adjust the username based on the AMI you are using
-    private_key = file("~/Downloads/bigkey.pem")
+    private_key = file("bigkey.pem")
     host = aws_instance.jenkins_instance.public_ip
   }
 
