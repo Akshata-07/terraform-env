@@ -9,6 +9,13 @@ resource "aws_instance" "jenkins_instance" {
   key_name      = "bigkey"      # Replace with your EC2 key pair name
   vpc_security_group_ids = ["sg-0ecdd245a67e6d166"]  # Replace with your security group(s)
 
+connection {
+    type        = "ssh"
+    user        = "ec2-user"  # Adjust the username based on the AMI you are using
+    private_key = file("~/Downloads/bigkey.pem")
+    host = aws_instance.jenkins_instance.public_ip
+  }
+
 
   provisioner "remote-exec" {
     inline = [
